@@ -1,0 +1,11 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: dimgray;
+  text-align: center;
+  margin: 10px; 
+}
+
+.card-image {
+  height: 180px;
+}

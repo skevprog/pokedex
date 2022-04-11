@@ -51,13 +51,13 @@ function Pokedex(): JSX.Element {
 
   return (
     <>
+      <h1 className="center-text">Pokedex</h1>
       <Pagination
         onNextClick={nextPage}
         onPreviousClick={previousPage}
         page={page}
         totalPages={total}
       />
-      <h1 className="center-text">Pokedex</h1>
       <div className="card-container">
         {loading ? <h2>Loading pokemons...</h2> : renderPokemons()}
       </div>

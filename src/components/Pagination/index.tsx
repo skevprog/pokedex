@@ -1,3 +1,6 @@
+import Button from '../Button';
+import './styles.css';
+
 interface PaginationProps {
   onNextClick: () => void;
   onPreviousClick: () => void;
@@ -19,13 +22,20 @@ function Pagination({
   };
 
   return (
-    <div>
-      <button disabled={page === 0} type="button" onClick={previousHandler}>Previous</button>
-      <button disabled={page + 1 === totalPages} type="button" onClick={nextHandler}>Next</button>
-      <p>{`Current page ${page + 1}`}</p>
+    <div className="pagination-container">
+      <Button
+        disabled={page === 0}
+        onClick={previousHandler}
+        label="<"
+      />
       <p>
-        {`Total pages ${totalPages}`}
+        {`Page ${page + 1} of ${totalPages}`}
       </p>
+      <Button
+        disabled={page + 1 === totalPages}
+        onClick={nextHandler}
+        label=">"
+      />
     </div>
   );
 }

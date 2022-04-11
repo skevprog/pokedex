@@ -1,6 +1,5 @@
-export interface PokemonData {
+type PokemonType = {
   name: string;
-  url: string;
 }
 
 export interface Pokemon {
@@ -8,5 +7,13 @@ export interface Pokemon {
   name: string;
   sprites: {
     front_default: string;
+    front_shiny: string;
   };
+  order: number;
+  height: number;
+  weight: number;
+  types: [{
+    slot: number;
+    type: PokemonType[]
+  }];
 }

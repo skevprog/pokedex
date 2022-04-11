@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import { Pokemon } from '../../utils/types';
 import { API_URL } from '../../api/constants';
@@ -20,7 +21,7 @@ function Pokedex(): JSX.Element {
 
   const fetchPokemons = () => {
     setLoading(true);
-    axios.get((`${API_URL}pokemon?limit=${defaultLimit}&offset=${defaultLimit * page}`))
+    axios.get((`${API_URL}/pokemon?limit=${defaultLimit}&offset=${defaultLimit * page}`))
       .then(({ data }) => {
         setTotal(Math.ceil(data.count / defaultLimit)); // Round max pages totalPokemons / limit === total pages
         return Promise.all(data.results.map((el) => axios.get(el.url).then((resp) => resp.data)));
@@ -39,7 +40,12 @@ function Pokedex(): JSX.Element {
   }, [page]);
 
   const renderPokemons = () => (pokemons?.length > 0
-    ? pokemons.map((pokemon: Pokemon) => (<Card key={pokemon.id} pokemon={pokemon} />)) : <h2>No Pokemons</h2>);
+    ? pokemons.map((pokemon: Pokemon) => (
+      <Link className="nav-link" to={`/${pokemon.name}`} key={pokemon.id}>
+        <Card pokemon={pokemon} />
+      </Link>
+    ))
+    : <h2>No Pokemons</h2>);
 
   const nextPage = () => {
     setPage((prevPage) => prevPage + 1);

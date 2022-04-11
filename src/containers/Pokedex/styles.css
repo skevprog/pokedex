@@ -3,3 +3,8 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.nav-link {
+  text-decoration: none;
+  color: #fff;
+}

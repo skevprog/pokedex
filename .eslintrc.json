@@ -29,7 +29,7 @@
         "max-len": [
             "warn",
             {
-                "code": 120
+                "code": 125
             }
         ],
         "no-use-before-define": "off",

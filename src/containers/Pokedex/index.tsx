@@ -57,7 +57,7 @@ function Pokedex(): JSX.Element {
         page={page}
         totalPages={total}
       />
-      <h1>Pokedex</h1>
+      <h1 className="center-text">Pokedex</h1>
       <div className="card-container">
         {loading ? <h2>Loading pokemons...</h2> : renderPokemons()}
       </div>

@@ -1,47 +1,38 @@
 import { useEffect, useState } from 'react';
 
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import { Pokemon } from '../../utils/types';
 import { API_URL } from '../../api/constants';
 
+import useFetch, { FetchHook } from '../../hooks/useFetch';
+
 import Card from './components/Card';
+import Pagination from '../../components/Pagination';
 
 import './styles.css';
-import Pagination from '../../components/Pagination';
 
 const defaultLimit = 10;
 
+interface ApiResult {
+  count: number;
+  results: Pokemon[];
+}
+
 function Pokedex(): JSX.Element {
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [total, setTotal] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
 
-  const fetchPokemons = () => {
-    setLoading(true);
-    axios.get((`${API_URL}/pokemon?limit=${defaultLimit}&offset=${defaultLimit * page}`))
-      .then(({ data }) => {
-        setTotal(Math.ceil(data.count / defaultLimit)); // Round max pages totalPokemons / limit === total pages
-        return Promise.all(data.results.map((el) => axios.get(el.url).then((resp) => resp.data)));
-      })
-      .then((pokemonsData: Pokemon[]) => {
-        setPokemons(pokemonsData);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      })
-      .finally(() => setLoading(false));
-  };
-
+  const { data, isPending, error }: FetchHook<ApiResult> = useFetch(`${API_URL}/pokemon?limit=${defaultLimit}&offset=${defaultLimit * page}`);
   useEffect(() => {
-    fetchPokemons();
-  }, [page]);
+    if (data?.count) {
+      setTotal(data?.count);
+    }
+  }, [data?.count]);
 
-  const renderPokemons = () => (pokemons?.length > 0
-    ? pokemons.map((pokemon: Pokemon) => (
-      <Link className="nav-link" to={`/${pokemon.name}`} key={pokemon.id}>
+  const renderPokemons = () => (data?.results && data.results?.length > 0
+    ? data?.results.map((pokemon: Pokemon) => (
+      <Link key={pokemon.id} className="nav-link" to={`/${pokemon.name}`}>
         <Card pokemon={pokemon} />
       </Link>
     ))
@@ -58,15 +49,20 @@ function Pokedex(): JSX.Element {
   return (
     <>
       <h1 className="center-text">Pokedex</h1>
-      <Pagination
-        onNextClick={nextPage}
-        onPreviousClick={previousPage}
-        page={page}
-        totalPages={total}
-      />
-      <div className="card-container">
-        {loading ? <h2>Loading pokemons...</h2> : renderPokemons()}
-      </div>
+      {error ? <h2>{error}</h2> : (
+        <>
+          <Pagination
+            onNextClick={nextPage}
+            onPreviousClick={previousPage}
+            page={page}
+            totalPages={total}
+          />
+          <div className="card-container">
+            {isPending ? <h2>Loading Pokemons...</h2> : renderPokemons()}
+          </div>
+
+        </>
+      )}
     </>
   );
 }

@@ -1,26 +1,16 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 
 import { API_URL } from '../../api/constants';
 import { Pokemon } from '../../utils/types';
+
+import useFetch, { FetchHook } from '../../hooks/useFetch';
 
 import './styles.css';
 
 function PokemonInfo(): JSX.Element {
   const { pokemonName } = useParams();
-  const [pokemon, setPokemon] = useState<Pokemon | undefined>(undefined);
 
-  useEffect(() => {
-    const fetchPokemonByName = (name) => {
-      axios.get(`${API_URL}/pokemon/${name}`)
-        .then((data) => {
-          setPokemon(data.data);
-        })
-        .catch((error) => { console.error(error); });
-    };
-    fetchPokemonByName(pokemonName);
-  }, []);
+  const { data: pokemon, isPending, error }: FetchHook<Pokemon> = useFetch(`${API_URL}/pokemon/${pokemonName}`);
 
   const renderPokemon = () => (
     <div className="pokemon-info-container">
@@ -28,7 +18,7 @@ function PokemonInfo(): JSX.Element {
         {pokemon?.name}
       </h2>
       <div className="info">
-        <img alt={pokemon?.name} src={pokemon?.sprites.front_default} />
+        <img alt={pokemon?.name} src={pokemon?.sprites?.front_default} />
         <h3>
           Height:
           {' '}
@@ -43,7 +33,8 @@ function PokemonInfo(): JSX.Element {
     </div>
   );
 
-  return renderPokemon();
+  if (error) return <h2>{error}</h2>;
+  return isPending ? <h2>Loading</h2> : renderPokemon();
 }
 
 export default PokemonInfo;

@@ -7,7 +7,7 @@ import useFetch, { FetchHook } from '../../hooks/useFetch';
 
 import './styles.css';
 
-function PokemonInfo(): JSX.Element {
+function PokemonDetails(): JSX.Element {
   const { pokemonName } = useParams();
 
   const { data: pokemon, isPending, error }: FetchHook<Pokemon> = useFetch(`${API_URL}/pokemon/${pokemonName}`);
@@ -37,4 +37,4 @@ function PokemonInfo(): JSX.Element {
   return isPending ? <h2>Loading</h2> : renderPokemon();
 }
 
-export default PokemonInfo;
+export default PokemonDetails;

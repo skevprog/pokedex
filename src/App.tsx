@@ -1,12 +1,10 @@
-import Pokedex from './containers/Pokedex';
+import Home from './pages/Home';
 
 import './App.css';
 
 function App() {
   return (
-    <div>
-      <Pokedex />
-    </div>
+    <Home />
   );
 }
 

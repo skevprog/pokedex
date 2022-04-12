@@ -47,23 +47,19 @@ function Pokedex(): JSX.Element {
   };
 
   return (
-    <>
-      <h1 className="center-text">Pokedex</h1>
-      {error ? <h2>{error}</h2> : (
-        <>
-          <Pagination
-            onNextClick={nextPage}
-            onPreviousClick={previousPage}
-            page={page}
-            totalPages={total}
-          />
-          <div className="card-container">
-            {isPending ? <h2>Loading Pokemons...</h2> : renderPokemons()}
-          </div>
-
-        </>
-      )}
-    </>
+    error ? <h2>{error}</h2> : (
+      <>
+        <Pagination
+          onNextClick={nextPage}
+          onPreviousClick={previousPage}
+          page={page}
+          totalPages={total}
+        />
+        <div className="card-container">
+          {isPending ? <h2>Loading Pokemons...</h2> : renderPokemons()}
+        </div>
+      </>
+    )
   );
 }
 

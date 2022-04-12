@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import App from './App';
-import PokemonInfo from './pages/Pokemon';
+import PokemonDetails from './pages/PokemonDetails';
 import CreatePokemon from './pages/CreatePokemon';
 
 import reportWebVitals from './reportWebVitals';
@@ -17,7 +17,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="/:pokemonName" element={<PokemonInfo />} />
+      <Route path="/:pokemonName" element={<PokemonDetails />} />
       <Route path="/create-pokemon" element={<CreatePokemon />} />
     </Routes>
   </BrowserRouter>,

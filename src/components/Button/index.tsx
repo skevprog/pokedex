@@ -2,7 +2,7 @@ import './styles.css';
 
 interface ButtonProps {
   label: string;
-  onClick: () => void;
+  onClick: (params?) => void;
   disabled: boolean;
 }
 

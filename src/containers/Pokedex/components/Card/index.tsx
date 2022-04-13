@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import Loader from '../../../../components/Loader';
+import { capitalizeWord } from '../../../../utils/helpers';
 
 import { Pokemon } from '../../../../utils/types';
 
@@ -15,7 +16,7 @@ function Card({ pokemon }: CardProps): JSX.Element {
   const [loading, setLoading] = useState(true);
   return (
     <div className="card">
-      <p>{name}</p>
+      <p>{capitalizeWord(name)}</p>
       {loading && (
       <Loader
         customTextStyles="image-loader-text"

@@ -6,6 +6,7 @@ import { Pokemon } from '../../utils/types';
 import useFetch, { FetchHook } from '../../hooks/useFetch';
 
 import './styles.css';
+import { capitalizeWord } from '../../utils/helpers';
 
 function PokemonDetails(): JSX.Element {
   const { pokemonName } = useParams();
@@ -15,7 +16,7 @@ function PokemonDetails(): JSX.Element {
   const renderPokemon = () => (
     <div className="pokemon-info-container">
       <h2>
-        {pokemon?.name}
+        {capitalizeWord(pokemon?.name)}
       </h2>
       <div className="info">
         <img alt={pokemon?.name} src={pokemon?.sprites?.front_default} />

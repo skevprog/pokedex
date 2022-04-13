@@ -8,3 +8,5 @@ export const fetchFromArray = async (dataArray: any[], prop: string | number) =>
   }));
   return results;
 };
+
+export const capitalizeWord = (str = '') => str.charAt(0).toUpperCase() + str.slice(1);

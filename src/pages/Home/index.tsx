@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Title from '../../components/Title';
 
 import Pokedex from '../../containers/Pokedex';
 
@@ -7,7 +8,7 @@ import './styles.css';
 export default function Home() {
   return (
     <>
-      <h1 className="center-text">Pokedex</h1>
+      <Title className="center-text" text="Pokedex" />
       <Pokedex />
       <div className="button-container">
         <Link to="/create-pokemon">

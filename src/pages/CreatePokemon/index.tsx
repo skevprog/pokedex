@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../../components/Button';
+import Title from '../../components/Title';
 
 import useForm from '../../hooks/useForms';
 
@@ -38,7 +39,7 @@ function CreatePokemon() {
 
   return (
     <div>
-      <h1>Create Pokemon</h1>
+      <Title className="center-text" text="Create Pokemon" />
       <form className="form-container">
         <input
           className="form-input"

@@ -1,27 +1,40 @@
-import { useState } from 'react';
+import React from 'react';
 import Button from '../../components/Button';
+
+import useForm from '../../hooks/useForms';
 
 import './styles.css';
 
+interface CreatePokemonFormErrors {
+  name?: string;
+  type?: string;
+  physicalInfo?: string;
+  description?: string
+}
+
 function CreatePokemon() {
-  const [formState, setFormState] = useState({
-    name: '', type: '', description: '', height: 0, weight: 0,
-  });
-
-  const formCheck = () => !Object.values(formState).every((x) => x);
-
-  const onClickHandler = () => {
-    if (formCheck()) return;
-    console.log('Create pokemon', formState);
+  const validate = (values) => {
+    const errors: CreatePokemonFormErrors = {};
+    if (!values.name || !values.type) {
+      errors.name = 'Name is required';
+      errors.type = 'Type is required';
+    }
+    if (!values.height || !values.weight) {
+      errors.physicalInfo = 'Value should be a valid number';
+    }
+    if (!values.description || values.description?.length < 30) {
+      errors.description = 'Description should have more that 30 characters';
+    }
+    return errors;
   };
 
-  const handleOnChange = (e) => {
-    const { value } = e.target;
-    setFormState({
-      ...formState,
-      [e.target.name]: value,
-    });
-  };
+  function createPokemon() {
+    alert('Form submited successfully');
+  }
+
+  const {
+    handleChange, handleSubmit, values, errors,
+  } = useForm(createPokemon, validate);
 
   return (
     <div>
@@ -31,42 +44,57 @@ function CreatePokemon() {
           className="form-input"
           type="text"
           placeholder="Name"
-          value={formState.name}
+          value={values.name || ''}
           name="name"
-          onChange={handleOnChange}
+          onChange={handleChange}
         />
+        {errors.name && (
+        <p className="danger">{errors.name}</p>
+        )}
         <input
           className="form-input"
           type="text"
           placeholder="Type"
-          value={formState.type}
+          value={values.type || ''}
           name="type"
-          onChange={handleOnChange}
+          onChange={handleChange}
         />
+        {errors.type && (
+        <p className="danger">{errors.type}</p>
+        )}
         <input
           className="form-input"
-          type="text"
+          type="number"
           placeholder="Height"
-          value={formState.height}
+          value={values.height || 0}
           name="height"
-          onChange={handleOnChange}
+          onChange={handleChange}
         />
+        {errors.physicalInfo && (
+        <p className="danger">{errors.physicalInfo}</p>
+        )}
         <input
           className="form-input"
-          type="text"
+          type="number"
           placeholder="Weight"
-          value={formState.weight}
+          value={values.weight || 0}
           name="weight"
-          onChange={handleOnChange}
+          onChange={handleChange}
         />
+        {errors.physicalInfo && (
+        <p className="danger">{errors.physicalInfo}</p>
+        )}
         <textarea
           className="form-input"
           placeholder="Description"
-          value={formState.description}
+          value={values.description || ''}
           name="description"
-          onChange={handleOnChange}
+          onChange={handleChange}
         />
-        <Button disabled={!!formCheck()} label="Create" onClick={onClickHandler} />
+        {errors.description && (
+        <p className="danger">{errors.description}</p>
+        )}
+        <Button disabled={false} label="Create" onClick={handleSubmit} />
       </form>
 
     </div>

@@ -21,9 +21,14 @@ interface ApiResult {
 
 function Pokedex(): JSX.Element {
   const [total, setTotal] = useState<number>(1);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(Number(sessionStorage.getItem('lastPage')) || 0);
 
   const { data, isPending, error }: FetchHook<ApiResult> = useFetch(`${API_URL}/pokemon?limit=${defaultLimit}&offset=${defaultLimit * page}`);
+
+  useEffect(() => {
+    sessionStorage.setItem('lastPage', page.toString());
+  }, [page]);
+
   useEffect(() => {
     if (data?.count) {
       setTotal(data?.count);
